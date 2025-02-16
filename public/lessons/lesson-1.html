@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درس HTML الأول - CodeRoots</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+/* Base & Typography */
+:root {
+    --primary-color: #ffcc00;
+    --secondary-color: #4d94ff;
+    --background-dark: #2a2a45;
+    --background-darker: #1f1f35;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --transition-speed: 0.3s;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, var(--background-dark), var(--background-darker));
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* Layout */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 280px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 2rem 0;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    transition: transform var(--transition-speed);
+    box-shadow: var(--shadow-md);
+}
+
+.sidebar-header {
+    padding: 0 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Menu Items */
+.sidebar-menu {
+    padding-top: 1.5rem;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0.875rem 1.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all var(--transition-speed);
+    border-right: 3px solid transparent;
+    margin: 0.25rem 0;
+}
+
+.menu-item:hover, .menu-item.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--primary-color);
+    border-right-color: var(--primary-color);
+}
+
+.menu-icon {
+    margin-left: 1rem;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-right: 280px;
+    padding: 2.5rem 4rem;
+    max-width: 1000px;
+    margin-left: auto;
+}
+
+/* Lesson Header */
+.lesson-header {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+}
+
+.lesson-title {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+}
+
+.lesson-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Progress Bar */
+.lesson-progress {
+    display: flex;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.progress-bar-container {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    height: 8px;
+    overflow: hidden;
+    margin: 0 1rem;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), #ffd700);
+    width: 15%;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+}
+
+/* Lesson Content */
+.lesson-section {
+    margin-bottom: 4rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.section-title {
+    color: var(--primary-color);
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.section-icon {
+    margin-left: 1rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 204, 0, 0.1);
+    border-radius: 50%;
+}
+
+/* Code Blocks */
+.code-block {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    direction: ltr;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.code-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.75rem 1.5rem;
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.code-copy {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-speed);
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+}
+
+.code-copy:hover {
+    background: var(--primary-color);
+    color: var(--background-darker);
+}
+
+.code-content {
+    margin-top: 3.5rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* Interactive Elements */
+.interactive-element {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+
+/* AI Help Box */
+.ai-help {
+    background: rgba(77, 148, 255, 0.1);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    margin: 2rem 0;
+    display: flex;
+    border: 1px solid rgba(77, 148, 255, 0.2);
+    box-shadow: var(--shadow-sm);
+}
+
+.ai-icon {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-left: 1.5rem;
+}
+
+/* Note Box */
+.note-box {
+    background: rgba(255, 204, 0, 0.1);
+    border-right: 3px solid var(--primary-color);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Navigation */
+.lesson-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.nav-button {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transition: var(--transition-speed);
+    display: flex;
+    align-items: center;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+}
+
+.nav-button:hover:not(:disabled) {
+    background: var(--primary-color);
+    color: var(--background-darker);
+    transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .sidebar {
+        transform: translateX(100%);
+        z-index: 1000;
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-right: 0;
+        padding: 1.5rem;
+    }
+    
+    .toggle-sidebar {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1001;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        width: 48px;
+        height: 48px;
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        backdrop-filter: blur(5px);
+    }
+
+    .lesson-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 993px) {
+    .toggle-sidebar {
+        display: none;
+    }
+}
+
+/* Dark Mode Enhancement */
+@media (prefers-color-scheme: dark) {
+    .code-block {
+        background: rgba(0, 0, 0, 0.4);
+    }
+    
+    .interactive-element {
+        background: rgba(255, 255, 255, 0.03);
+    }
+}
+    </style>
+</head>
+<body>
+    <button class="toggle-sidebar" id="toggle-sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">CodeRoots</div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="../dashboard.html" class="menu-item">
+                    <span class="menu-icon"><i class="fas fa-home"></i></span>
+                    <span>الرئيسية</span>
+                </a>
+                <a href="#" class="menu-item active">
+                    <span class="menu-icon"><i class="fas fa-book"></i></span>
+                    <span>الدروس</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon"><i class="fas fa-code"></i></span>
+                    <span>التمارين</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon"><i class="fas fa-trophy"></i></span>
+                    <span>الإنجازات</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon"><i class="fas fa-comments"></i></span>
+                    <span>المجتمع</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon"><i class="fas fa-cog"></i></span>
+                    <span>الإعدادات</span>
+                </a>
+                <a href="../index.html" class="menu-item">
+                    <span class="menu-icon"><i class="fas fa-sign-out-alt"></i></span>
+                    <span>تسجيل الخروج</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="lesson-header">
+                <h1 class="lesson-title">مقدمة إلى HTML</h1>
+                <p class="lesson-subtitle">الدرس الأول: أساسيات لغة HTML وبنية الصفحة</p>
+                <div class="lesson-progress">
+                    <span class="progress-text">1 من 24</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <span class="progress-text">4%</span>
+                </div>
+            </div>
+            
+            <div class="lesson-content">
+                <section class="lesson-section">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-info-circle"></i></span>
+                        ما هي لغة HTML؟
+                    </h2>
+                    <p>HTML هي اختصار لـ HyperText Markup Language أو "لغة ترميز النص التشعبي". إنها اللغة الأساسية المستخدمة في بناء صفحات الويب. تستخدم HTML العلامات (Tags) لتحديد العناصر المختلفة في الصفحة مثل العناوين والفقرات والصور والروابط.</p>
+                    
+                    <div class="note-box">
+                        <div class="note-title">
+                            <i class="fas fa-lightbulb"></i>
+                            ملاحظة مهمة
+                        </div>
+                        <p>HTML ليست لغة برمجة بالمعنى التقليدي، بل هي لغة توصيف (markup language) تستخدم لتنسيق وهيكلة المحتوى على الويب.</p>
+                    </div>
+                </section>
+                
+                <section class="lesson-section">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-file-code"></i></span>
+                        الهيكل الأساسي لصفحة HTML
+                    </h2>
+                    <p>كل صفحة HTML تحتوي على هيكل أساسي يتكون من العناصر التالية:</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">الهيكل الأساسي لصفحة HTML</span>
+                            <button class="code-copy">
+                                <i class="fas fa-copy"></i>
+                                نسخ الكود
+                            </button>
+                        </div>
+                        <div class="code-content">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>عنوان الصفحة</title>
+</head>
+<body>
+    محتوى الصفحة
+</body>
+</html>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-element">
+                        <h3>شرح العناصر الأساسية:</h3>
+                        <ul>
+                            <li><strong>&lt;!DOCTYPE html&gt;</strong> - يحدد نوع المستند كـ HTML5</li>
+                            <li><strong>&lt;html&gt;</strong> - العنصر الجذر لصفحة HTML</li>
+                            <li><strong>&lt;head&gt;</strong> - يحتوي على معلومات الصفحة (غير مرئية)</li>
+                            <li><strong>&lt;title&gt;</strong> - عنوان الصفحة الذي يظهر في المتصفح</li>
+                            <li><strong>&lt;body&gt;</strong> - يحتوي على المحتوى المرئي للصفحة</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-code"></i></span>
+                        العناصر الأساسية في HTML
+                    </h2>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">أمثلة على العناصر الأساسية</span>
+                            <button class="code-copy">
+                                <i class="fas fa-copy"></i>
+                                نسخ الكود
+                            </button>
+                        </div>
+                        <div class="code-content">
+<h1>عنوان رئيسي</h1>
+<p>هذه فقرة نصية.</p>
+<a href="https://example.com">رابط</a>
+<img src="image.jpg" alt="وصف الصورة">
+<ul>
+    <li>عنصر في قائمة</li>
+</ul>
+                        </div>
+                    </div>
+
+                    <div class="ai-help">
+                        <div class="ai-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="ai-content">
+                            <h4>نصيحة ذكية</h4>
+                            <p>تذكر دائماً إغلاق كل العلامات التي تفتحها. معظم الأخطاء في HTML تنتج عن نسيان إغلاق العلامات.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2 class="section-title">
+                        <span class="section-icon"><i class="fas fa-tasks"></i></span>
+                        تمرين عملي
+                    </h2>
+                    <div class="interactive-element">
+                        <p>حاول إنشاء صفحة HTML بسيطة تحتوي على:</p>
+                        <ul>
+                            <li>عنوان رئيسي</li>
+                            <li>فقرة نصية</li>
+                            <li>رابط يفتح في نافذة جديدة</li>
+                            <li>قائمة غير مرتبة</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <div class="lesson-navigation">
+                    <button class="nav-button prev-button" disabled>
+                        <i class="fas fa-arrow-right nav-icon"></i>
+                        الدرس السابق
+                    </button>
+                    <button class="nav-button next-button">
+                        الدرس التالي
+                        <i class="fas fa-arrow-left nav-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('toggle-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - CodeRoots</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #818cf8;
+            --accent-color: #6ee7b7;
+            --dark-bg: #1e1b4b;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --transition-speed: 0.3s;
+        }
+
+        .light-theme {
+            --dark-bg: #f8fafc;
+            --text-color: #1e293b;
+            --card-bg: rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg), #2d2a5d);
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: background-color var(--transition-speed);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100%;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 1rem;
+            font-weight: bold;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all var(--transition-speed);
+            cursor: pointer;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .menu-icon {
+            margin-left: 1rem;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-right: 280px;
+            padding: 2rem;
+            transition: margin var(--transition-speed);
+        }
+
+        .dashboard-header {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .progress-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            height: 12px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            width: 0;
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Lessons Grid */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .lesson-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all var(--transition-speed);
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .lesson-title {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .lesson-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: var(--dark-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            position: relative;
+            max-width: 500px;
+            margin: 2rem auto;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                transform: translateX(100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-right: 0;
+                padding: 1rem;
+            }
+
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                z-index: 1001;
+                background: var(--primary-color);
+                color: white;
+                padding: 0.5rem;
+                border-radius: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" id="menuToggle" style="display: none;">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="logo.svg" alt="CodeRoots" class="logo-icon">
+                    CodeRoots
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">أ</div>
+                    <div>
+                        <h3 class="user-name">أحمد محمد</h3>
+                        <p class="user-role">متعلم</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="menu">
+                <a href="#" class="menu-item active">
+                    <span class="menu-icon"><i class="fas fa-home"></i></span>
+                    لوحة التحكم
+                </a>
+                <a href="#" class="menu-item" id="lessonsBtn">
+                    <span class="menu-icon"><i class="fas fa-book"></i></span>
+                    الدروس
+                </a>
+                <a href="#" class="menu-item" id="tasksBtn">
+                    <span class="menu-icon"><i class="fas fa-tasks"></i></span>
+                    المهام
+                </a>
+                <a href="#" class="menu-item" id="progressBtn">
+                    <span class="menu-icon"><i class="fas fa-chart-line"></i></span>
+                    التقدم
+                </a>
+                <a href="#" class="menu-item" id="settingsBtn">
+                    <span class="menu-icon"><i class="fas fa-cog"></i></span>
+                    الإعدادات
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="dashboard-header">
+                <div class="greeting">
+                    <h2>مرحباً، أحمد!</h2>
+                    <p>استمر في التعلم! لديك دروس جديدة تنتظرك.</p>
+                </div>
+            </div>
+
+            <section class="progress-section">
+                <h2>تقدمك في المسار</h2>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="progress-details">
+                    <span id="progressPercent">0% مكتمل</span>
+                    <span>4 دروس متبقية</span>
+                </div>
+            </section>
+
+            <section class="lessons-grid" id="lessonsGrid">
+                <!-- Lessons will be added here by JavaScript -->
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="tasksModal" class="modal">
+        <div class="modal-content">
+            <h3>المهام</h3>
+            <p>لا يوجد أي مهام حالياً</p>
+            <button class="close-modal">إغلاق</button>
+        </div>
+    </div>
+
+    <script>
+        // Authentication Check
+        if (!localStorage.getItem('loggedIn')) {
+            window.location.href = 'login.html';
+        }
+
+        // Lessons Data
+        const lessons = [
+            {
+                id: 1,
+                title: 'مقدمة في HTML',
+                description: 'تعلم أساسيات بناء صفحات الويب',
+                duration: '45 دقيقة',
+                completed: false
+            },
+            {
+                id: 2,
+                title: 'أساسيات CSS',
+                description: 'تنسيق صفحات الويب بشكل احترافي',
+                duration: '60 دقيقة',
+                completed: false
+            },
+            {
+                id: 3,
+                title: 'JavaScript للمبتدئين',
+                description: 'أساسيات البرمجة بلغة JavaScript',
+                duration: '90 دقيقة',
+                completed: false
+            }
+        ];
+
+        // Initialize Lessons
+        function initLessons() {
+            const grid = document.getElementById('lessonsGrid');
+            grid.innerHTML = lessons.map(lesson => `
+                <div class="lesson-card">
+                    <h3 class="lesson-title">${lesson.title}</h3>
+                    <p>${lesson.description}</p>
+                    <div class="lesson-meta">
+                        <span>${lesson.duration}</span>
+                        <button class="lesson-button" onclick="startLesson(${lesson.id})">
+                            ابدأ الدرس
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Start Lesson
+        function startLesson(lessonId) {
+            const lesson = lessons.find(l => l.id === lessonId);
+            if (lesson) {
+                window.location.href = `lessons/lesson-${lessonId}.html`;
+            }
+        }
+
+        // Initialize Modals
+        function initModals() {
+            const modals = {
+                tasksBtn: 'tasksModal',
+                settingsBtn: 'settingsModal'
+            };
+
+            Object.entries(modals).forEach(([btnId, modalId]) => {
+                document.getElementById(btnId).addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById(modalId).style.display = 'block';
+                });
+            });
+
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.modal').forEach(m => {
+                        m.style.display = 'none';
+                    });
+                });
+            });
+        }
+
+        // Mobile Menu
+        function initMobileMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.querySelector('.sidebar');
+
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('show');
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        }
+
+        // Initialize Everything
+        document.addEventListener('DOMContentLoaded', () => {
+            initLessons();
+            initModals();
+            initMobileMenu();
+        });
+    </script>
+</body>
+</html>
